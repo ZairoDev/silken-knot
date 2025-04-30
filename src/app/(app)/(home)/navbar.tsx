@@ -5,6 +5,7 @@ import { useState } from "react";
 import { MenuIcon } from "lucide-react";
 import { Poppins } from "next/font/google";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -51,10 +52,24 @@ export const Navbar = () => {
 
   return (
     <nav className=" h-20 flex border-b justify-between font-medium bg-white">
-      <Link href={"/"} className=" pl-6 flex items-center">
-        <span className={cn(" text-5xl font-semibold", poppins.className)}>
-          Silken Knot
-        </span>
+      <Link href={"/"} className=" pl-6 flex items-center ">
+        {/* <motion.span
+          className={cn(" text-5xl font-semibold flex", poppins.className)}
+          animate={{ y: [0, 5, 0] }}
+          transition={{ staggerChildren: 0.2 }}
+        > */}
+        {"Silken Knot".split("").map((char, index) => (
+          <motion.p
+            key={index}
+            className={cn(" text-5xl font-semibold flex", poppins.className)}
+            // initial={{ scale: 0.95 }}
+            animate={{ y: [0, 3, 0] }}
+            transition={{ duration: 0.6, repeat: Infinity, delay: index * 0.1 }}
+          >
+            {char}
+          </motion.p>
+        ))}
+        {/* </motion.span> */}
       </Link>
 
       <NavbarSidebar
