@@ -21,7 +21,7 @@ export const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
   const [parentCategories, setParentCategories] =
     useState<CategoriesGetManyOutput | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<
-    CategoriesGetManyOutput[0] | null
+    CategoriesGetManyOutput[1] | null
   >(null);
 
   // if we have parent categories, show those, otherwise show root categories
@@ -33,8 +33,10 @@ export const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
     onOpenChange(open);
   };
 
-  const handleCategoryClick = (category: CategoriesGetManyOutput[0]) => {
+  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
     if (category.subcategories && category.subcategories.length > 0) {
+      // setParentCategories(category.subcategories
+      // );
       setParentCategories(category.subcategories as CategoriesGetManyOutput);
       setSelectedCategory(category);
     } else {

@@ -4,10 +4,9 @@ import { useState } from "react";
 import { ListFilterIcon, SearchIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
-
-import { CustomCategory } from "../types";
-import { CategoriesSidebar } from "./categories-sidebar";
 import { Button } from "@/components/ui/button";
+
+import { CategoriesSidebar } from "./categories-sidebar";
 
 interface Props {
   disabled?: boolean;
