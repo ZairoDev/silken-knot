@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion } from "motion/react";
 import { MenuIcon } from "lucide-react";
 import { Poppins } from "next/font/google";
 import { usePathname } from "next/navigation";
-import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
+import { useTRPC } from "@/trpc/client";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
 import { NavbarSidebar } from "./navbar-sidebar";
 
@@ -50,6 +52,9 @@ export const Navbar = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const trpc = useTRPC();
+  const session = useQuery(trpc.auth.session.queryOptions());
+
   return (
     <nav className=" h-20 flex border-b justify-between font-medium bg-white">
       <Link href={"/"} className=" pl-6 flex items-center ">
@@ -58,10 +63,13 @@ export const Navbar = () => {
           animate={{ y: [0, 5, 0] }}
           transition={{ staggerChildren: 0.2 }}
         > */}
-        {"Silken Knot".split("").map((char, index) => (
+        {"SilkenKnot".split("").map((char, index) => (
           <motion.p
             key={index}
-            className={cn(" text-5xl font-semibold flex", poppins.className)}
+            className={cn(
+              " text-4xl lg:text-2xl xl:text-5xl font-semibold flex",
+              poppins.className
+            )}
             // initial={{ scale: 0.95 }}
             animate={{ y: [0, 3, 0] }}
             transition={{ duration: 0.6, repeat: Infinity, delay: index * 0.1 }}
@@ -86,22 +94,34 @@ export const Navbar = () => {
         ))}
       </div>
 
-      <div className=" hidden lg:flex">
-        <Button
-          asChild
-          variant={"secondary"}
-          className=" border-l border-t-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
-        >
-          <Link href={"/sign-in"}>Log In</Link>
-        </Button>
-        <Button
-          asChild
-          className=" border-l border-t-0 border-r-0 px-12 h-full rounded-none bg-black
+      {session.data?.user ? (
+        <div>
+          <Button
+            asChild
+            className=" border-l border-t-0 border-r-0 px-12 h-full rounded-none bg-black
         text-white hover:bg-pink-400 hover:text-black transition-colors text-lg"
-        >
-          <Link href={"/sign-up"}>Start Selling</Link>
-        </Button>
-      </div>
+          >
+            <Link href={"/admin"}>Dashboard</Link>
+          </Button>
+        </div>
+      ) : (
+        <div className=" hidden lg:flex">
+          <Button
+            asChild
+            variant={"secondary"}
+            className=" border-l border-t-0 border-r-0 px-12 h-full rounded-none bg-white hover:bg-pink-400 transition-colors text-lg"
+          >
+            <Link href={"/sign-in"}>Log In</Link>
+          </Button>
+          <Button
+            asChild
+            className=" border-l border-t-0 border-r-0 px-12 h-full rounded-none bg-black
+        text-white hover:bg-pink-400 hover:text-black transition-colors text-lg"
+          >
+            <Link href={"/sign-up"}>Start Selling</Link>
+          </Button>
+        </div>
+      )}
 
       <div className=" flex lg:hidden items-center justify-center">
         <Button
