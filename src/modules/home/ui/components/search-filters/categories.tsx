@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { ListFilterIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,6 +16,8 @@ interface Props {
 }
 
 export const Categories = ({ data }: Props) => {
+  const params = useParams();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const measureRef = useRef<HTMLDivElement>(null);
   const viewAllRef = useRef<HTMLDivElement>(null);
@@ -23,7 +26,8 @@ export const Categories = ({ data }: Props) => {
   const [isAnyHovered, setIsAnyHovered] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const activeCategory = "all";
+  const categoryParams = params.category as string | undefined;
+  const activeCategory = categoryParams || "all";
 
   const activeCategoryIndex = data.findIndex((cat) => cat.slug === activeCategory);
   const isActiveCategoryHidden =
