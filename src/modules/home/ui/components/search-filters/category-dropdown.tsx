@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 import { SubcategoryMenu } from "./subcategory-menu";
-import { useDropdownPosition } from "./use-dropdown-position";
 import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface Props {
@@ -19,7 +18,6 @@ interface Props {
 export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
-  const { getDropdownPosition } = useDropdownPosition(dropDownRef);
 
   const onMouseEnter = () => {
     console.log("hello");
@@ -30,7 +28,6 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
 
   const onMouseLeave = () => setIsOpen(false);
 
-  const dropdownPosition = getDropdownPosition();
 
   // For mobile view to toggle categories
   // const toggleDropdown = () => {
@@ -45,7 +42,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
       ref={dropDownRef}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      // onClick={toggleDropdown}
+    // onClick={toggleDropdown}
     >
       <div className=" relative">
         <Button
@@ -54,7 +51,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
             "h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black",
             isActive && !isNavigationHovered && " bg-white border-primary",
             isOpen &&
-              " bg-white border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[4px] -translate-y-[4px] "
+            " bg-white border-primary shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[4px] -translate-y-[4px] "
           )}
         >
           <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
@@ -71,7 +68,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: Pr
         )}
       </div>
 
-      <SubcategoryMenu category={category} isOpen={isOpen} position={dropdownPosition} />
+      <SubcategoryMenu category={category} isOpen={isOpen} />
     </div>
   );
 };
