@@ -1,17 +1,14 @@
+import Link from "next/link";
+import { motion } from "motion/react";
+
 import {
   Sheet,
   SheetTitle,
-  SheetClose,
-  SheetFooter,
   SheetHeader,
-  SheetTrigger,
   SheetContent,
-  SheetDescription,
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { motion } from "motion/react";
-import Link from "next/link";
 
 interface NavbarItem {
   href: string;
