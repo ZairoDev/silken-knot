@@ -1,8 +1,9 @@
 
 
 import { ProductSort } from "../components/product-sort"
-import { ProductList } from "../components/product-list"
+import { ProductList, ProductListSkeleton } from "../components/product-list"
 import { ProductFilters } from "../components/product-filters"
+import { Suspense } from "react";
 
 
 interface Props {
