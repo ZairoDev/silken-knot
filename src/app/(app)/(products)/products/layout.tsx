@@ -1,5 +1,7 @@
 import { Footer } from "@/modules/home/ui/components/footer";
 import { Navbar } from "@/modules/home/ui/components/navbar";
+import { SearchFilters, SearchFiltersLoadingSkeleton } from "@/modules/home/ui/components/search-filters";
+import { Suspense } from "react";
 
 
 interface LayoutProps {
@@ -15,6 +17,9 @@ const Layout = async ({ children }: LayoutProps) => {
       <Navbar />
       <div className=" flex-1">
         <div className=" max-w-(--breakpoint-xl) mx-auto">
+          <Suspense fallback={<SearchFiltersLoadingSkeleton />}>
+        <SearchFilters />
+      </Suspense>
           {children}
         </div>
       </div>

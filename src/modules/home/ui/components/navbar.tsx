@@ -58,7 +58,7 @@ export const Navbar = () => {
   }, [])
 
   return (
-    <nav className=" h-[70px] flex border-b justify-between font-medium bg-white border border-black">
+    <nav className=" h-[80px] flex border-b justify-between font-medium bg-white border border-black">
       <Link href={"/"} className=" pl-6 flex items-center ">
         {"SilkenKnot".split("").map((char, index) => (
           <motion.p

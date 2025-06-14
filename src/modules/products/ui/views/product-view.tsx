@@ -4,7 +4,7 @@
 import axios from "axios";
 import Image from "next/image";
 import { toast } from "sonner";
-import { LinkIcon, StarIcon } from "lucide-react";
+import { LinkIcon, ShoppingCart, Star, StarIcon } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 
 import { ProductType } from "@/utils/types";
@@ -12,173 +12,216 @@ import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { StarRating } from "@/components/star-rating";
-
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Review } from "../components/review";
 
 interface ProductViewProps {
-  productId: string;
+	productId: string;
 }
 
-
 export const ProductView = ({ productId }: ProductViewProps) => {
+	const [data, setData] = useState<ProductType>();
+	const [isLoading, setIsLoading] = useState(false);
 
-  const [data, setData] = useState<ProductType>();
-  const [isLoading, setIsLoading] = useState(false);
+	const fetchProduct = async () => {
+		setIsLoading(true);
+		try {
+			const response = await axios.post("/api/products/getProductById", {
+				productId,
+			});
+			// console.log(response.data);
+			setData(response.data.data);
+		} catch (err: unknown) {
+			if (err instanceof Error) {
+				toast.error(err.message);
+			}
+			toast.error("Unable to fetch product");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+	const features = ["Boommmm", "djhgdjhdj", "djhfdfdfhkf", "jfhjdfhdhfdhfhf"];
 
-  const fetchProduct = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.post("/api/products/getProductById", { productId });
-      // console.log(response.data);
-      setData(response.data.data);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        toast.error(err.message);
-      }
-      toast.error("Unable to fetch product");
-    } finally {
-      setIsLoading(false);
-    }
-  }
+	useEffect(() => {
+		fetchProduct();
+	}, []);
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
 
+	if (!data) {
+		return <div>No data</div>;
+	}
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+	return (
+		<div className="w-full h-full relative">
+			<div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 m-4 border-b border-gray-500 pb-5">
+				<div className=" relative w-full h-full">
+					<img
+						src={data?.image ?? ""}
+						alt="cover"
+						className=" object-cover h-full w-full "
+					/>
+				</div>
 
-  if (!data) {
-    return <div>No data</div>
-  }
+				<div className="space-y-6 p-6">
+					{/* Product Name */}
+					<h1 className="text-4xl font-semibold">{data?.name}</h1>
 
-  return (
+					{/* Price Section */}
+					<div className="flex items-center">
+						<p className="text-2xl font-medium text-gray-800">
+							{formatCurrency(data?.price ?? 0)}
+						</p>
+					</div>
 
-    <div className=" px-4 lg:px-12 py-10">
-      <div className=" border rounded-sm bg-white overflow-hidden border-black" >
-        <div className=" relative aspect-[3.9]">
-          <Image
-            src={"/form-image.png"}
-            alt="cover"
-            fill
-            className=" object-cover" />
-        </div>
+					{/* Mobile Rating (visible on small screens only) */}
+					<div className="block lg:hidden border-b border-black pb-4">
+						<div className="flex items-center gap-1">
+							<StarRating rating={4} iconClassName="size-4" />
+							<p className="text-base font-medium">{5} ratings</p>
+						</div>
+					</div>
 
-        <div className=" grid grid-cols-1 lg:grid-cols-6 border border-t-black">
-          <div className=" col-span-4">
-            <div className=" p-6 border border-b-black">
-              <h1 className=" text-4xl font-medium">{data?.name}</h1>
-            </div>
-            <div className=" border-y flex">
-              <div className=" px-6 py-4 flex items-center justify-center border-r">
-                <div className="  px-2 py-1 border bg-pink-400 w-fit">
-                  <p className=" text-base font-medium"> {formatCurrency(data?.price ?? 0)}</p>
-                </div>
-              </div>
+					{/* Ratings Label */}
+					<div className="flex items-center gap-3">
+						<h3 className="text-xl font-medium">Ratings</h3>
+						<div className="flex gap-1">
+							{[1, 2, 3, 4, 5].map((_, index) =>
+								index < 4 ? (
+									<StarIcon
+										key={index}
+										className="w-4 h-4 text-yellow-500 fill-yellow-500"
+									/>
+								) : (
+									<StarIcon
+										key={index}
+										className="w-4 h-4 text-gray-300 fill-gray-300"
+									/>
+								)
+							)}
+						</div>
+					</div>
 
-              {/* <div className=" px-6 py-4 flex items-center justify-center lg:border-r">
-                <Link href={""} className=" flex items-center gap-2">
-                  {data.tenant.image?.url && (
-                    <Image
-                      // src={data.tenant.image.url}
-                      // alt={data.tenant.name}
-                      width={20}
-                      height={20}
-                      className=" rounded-full border shrink-0 size-[20px]" />
-                  )}
-                  <p className=" text-base underline font-medium">
-                    {data.tenant.name}
-                    tenant name
-                  </p>
-                </Link>
-              </div> */}
+					{/* Action Buttons */}
+					<div className="flex flex-col gap-4 items-center">
+						<Button
+							variant="dark"
+							size="dark"
+							className="w-full max-w-md bg-[#F5EDE6] hover:bg-[#e6dbd1]"
+						>
+							Add To Cart <ShoppingCart className="ml-2" />
+						</Button>
+						<Button
+							variant="dark"
+							size="dark"
+							className="w-full max-w-md bg-amber-600 hover:bg-amber-700"
+						>
+							Buy Now <ShoppingCart className="ml-2" />
+						</Button>
+					</div>
 
-              <div className=" hidden lg:flex px-6 py-4 items-center justify-center">
-                <div className=" flex items-center gap-1">
-                  <StarRating
-                    rating={4}
-                    iconClassName=" size-4"
-                  />
-                </div>
-              </div>
-            </div>
+					{/* Description */}
+					<div>
+						{data?.description ? (
+							<p className="text-base leading-relaxed text-gray-700">
+								{data.description}
+							</p>
+						) : (
+							<p className="font-medium text-muted-foreground italic">
+								No Description Provided
+							</p>
+						)}
+					</div>
+				</div>
 
-            <div className=" block lg:hidden px-6 py-4 items-center justify-center border-b-black border">
-              <div className=" flex items-center gap-1">
-                <StarRating
-                  rating={4}
-                  iconClassName=" size-4"
-                />
-                <p className=" text-base font-medium">
-                  {5} ratings
-                </p>
-              </div>
-            </div>
+				<div className=" ">
+					<div className="flex flex-col mt-4 border border-gray-300 ">
+						<Accordion
+							type="multiple"
+							defaultValue={["item-1", "item-2", "item-3"]} // This makes "Product Information" open initially
+						>
+							<AccordionItem
+								value="item-1"
+								className="border-b border-gray-500"
+							>
+								<AccordionTrigger className="bg-[#EEEEEE] text-lg border-none rounded-none px-3">
+									Product Information
+								</AccordionTrigger>
+								<AccordionContent>
+									<div className="flex flex-col text-base">
+										<div className="flex justify-start gap-28 px-3 pt-1">
+											<span className="font-medium">
+												Material
+											</span>
+											<span>Silver</span>
+										</div>
+									</div>
+								</AccordionContent>
+							</AccordionItem>
 
-            <div className=" p-6">
-              {data?.description ? (
-                <p>{data?.description ?? "No Description Provided"}</p>
-              ) : (
-                <p className=" font-medium text-muted-foreground italic">
-                  No Description Provided
-                </p>
-              )}
-            </div>
-          </div>
+							<AccordionItem
+								value="item-2"
+								className="border-b border-gray-500"
+							>
+								<AccordionTrigger className="bg-[#EEEEEE] text-lg border-none rounded-none px-3">
+									Description
+								</AccordionTrigger>
+								<AccordionContent>
+									<p className="text-start text-base px-3 pt-3">
+										Lorem ipsum dolor, sit amet consectetur
+										adipisicing elit. Nesciunt ipsam
+										excepturi qui culpa.
+									</p>
+								</AccordionContent>
+							</AccordionItem>
 
-          <div className=" col-span-2 border border-l-black">
-            <div className=" border-t lg:border-t-0 lg:border-l h-full">
-              <div className=" flex flex-col gap-4 p-6 border-b  border border-b-black">
-                <div className=" flex flex-row items-center gap-2">
-                  <Button
-                    variant={"elevated"}
-                    className=" flex-1 bg-pink-400"
-                  >
-                    Add To Cart
-                  </Button>
-                  <Button
-                    className=" size-12"
-                    variant={"elevated"}
-                    onClick={() => { }}
-                    disabled={false}
-                  >
-                    <LinkIcon />
-                  </Button>
-                </div>
-
-                <p className=" text-center font-medium">
-                  {data?.refundPolicy === "no-refunds" ? "No refunds" : `${data?.refundPolicy} money back guarantee`}
-                </p>
-              </div>
-
-              <div className=" p-6">
-                <div className=" flex items-center justify-between">
-                  <h3 className=" text-xl font-medium">Ratings</h3>
-                  <div className=" flex items-center gap-x-1 font-medium">
-                    <StarIcon className=" size-4 fill-black" />
-                    <p>({5})</p>
-                    <p className=" text-base">{5} ratings</p>
-                  </div>
-                </div>
-                <div className=" grid grid-cols-[auto_1fr_auto] gap-3 mt-4">
-                  {[5, 4, 3, 2, 1].map((stars) => (
-                    <Fragment key={stars}>
-                      <div className=" font-medium">
-                        {stars} {stars === 1 ? "star" : "stars"}
-                      </div>
-                      <Progress value={25} className=" h-[1lh]" />
-                      <div className=" font-medium">
-                        {25} %
-                      </div>
-                    </Fragment>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div >
-    </div >
-  )
-} 
+							<AccordionItem
+								value="item-3"
+								className="border-b border-gray-500"
+							>
+								<AccordionTrigger className="bg-[#EEEEEE] text-lg border-none rounded-none px-3">
+									Features
+								</AccordionTrigger>
+								<AccordionContent>
+									{features && features.length > 0 ? (
+										features.map((feature, index) => (
+											<div
+												key={index}
+												className="flex flex-col text-lg"
+											>
+												<div className="flex justify-start px-3 pt-1 items-center gap-2">
+													<StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+													<span className="text-base">
+														{feature}
+													</span>
+												</div>
+											</div>
+										))
+									) : (
+										<p className="text-start px-3 pt-3">
+											No features provided
+										</p>
+									)}
+								</AccordionContent>
+							</AccordionItem>
+						</Accordion>
+					</div>
+				</div>
+			</div>
+			<div className="border-b border-gray-300 py-4 mb-2">
+				<h2 className="text-2xl font-bold mb-3 text-left p-3">Description</h2>
+				<p className="text-lg px-4  text-gray-700">
+					{data?.description ? data.description : "No description"}
+				</p>
+			</div>
+			<Review/>
+		</div>
+	);
+};

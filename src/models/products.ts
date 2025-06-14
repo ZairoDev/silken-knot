@@ -12,6 +12,7 @@ const productSchema = new Schema({
     enum: ["30-day", "14-day", "7-day", "3-day", "1-day", "no-refunds"],
     default: "30-day",
   },
+  reviews:[{type:Schema.Types.ObjectId,ref:"Review"}]
 });
 
 export const Products =

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useProductFilters } from "../../hooks/use-product-filters"
 
 
-export const ProductSort = () => {
+export const  ProductSort = () => {
 
   const [filters, setFilters] = useProductFilters();
 

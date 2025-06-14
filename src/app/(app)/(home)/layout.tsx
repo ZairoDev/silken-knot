@@ -16,9 +16,9 @@ const Layout = async ({ children }: Props) => {
   return (
     <div className=" flex flex-col min-h-screen">
       <Navbar />
-      <Suspense fallback={<SearchFiltersLoadingSkeleton />}>
+      {/* <Suspense fallback={<SearchFiltersLoadingSkeleton />}>
         <SearchFilters />
-      </Suspense>
+      </Suspense> */}
       <div className=" flex-1 bg-[#f4f4f0]">{children}</div>
       <Footer />
     </div>
