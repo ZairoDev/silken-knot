@@ -12,7 +12,7 @@ export const Review = () => {
             const data  = Object.fromEntries(formData);
             const values = {...data, rating};
             // console.log(data);
-            const response = await axios.post(`/api/products/reviews`, values);
+            await axios.post(`/api/products/reviews`, values);
             e.currentTarget.reset();
             // console.log(response.data);
         }catch(err){

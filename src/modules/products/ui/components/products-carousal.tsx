@@ -9,7 +9,13 @@ import {
 } from "@/components/ui/carousel";
 import { ArrowRight } from "lucide-react";
 
-export const ProductCarousal = ({ products }: { products: any[] }) => {
+interface Product {
+	name: string;
+	img: string;
+	price:number;         
+}
+
+export const ProductCarousal = ({ products }: { products: Product[] }) => {
 	if (!Array.isArray(products) || products.length === 0) {
 		return <p className="text-center text-gray-500">No products found.</p>;
 	}

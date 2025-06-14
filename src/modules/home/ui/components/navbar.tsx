@@ -94,10 +94,9 @@ export const Navbar = () => {
         <div>
           <Button
             asChild
-            className=" border-l border-t-0 border-r-0 px-12 h-full rounded-none bg-black
-        text-white hover:bg-pink-400 hover:text-black transition-colors text-lg"
+            className=" border-l mt-3"
           >
-            <Link href={"/admin"}>Dashboard</Link>
+            <Link href={"/admin"}>Log Out</Link>
           </Button>
         </div>
       ) : (

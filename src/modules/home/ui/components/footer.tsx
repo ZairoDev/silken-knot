@@ -1,8 +1,8 @@
-import { Locate, LocateIcon } from "lucide-react";
+import { LocateIcon } from "lucide-react";
 
 export const Footer = () => {
 	return (
-		<footer className=" flex border-t justify-between font-medium p-6 border-t-black">
+		<footer className=" flex border-t justify-between font-medium p-6 border-t-black flex-wrap">
 			<div className=" flex items-center gap-2 flex-wrap max-w-[300px]">
 				<p>Silken Knot, Inc.</p>
 				<p>
