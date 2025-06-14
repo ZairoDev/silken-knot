@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { ProductListView } from "@/modules/products/ui/views/product-list-view";
+// import { ProductListView } from "@/modules/products/ui/views/product-list-view";
 import { HomePageView } from "@/modules/products/ui/views/home-page-view";
 
 const Page = async () => {

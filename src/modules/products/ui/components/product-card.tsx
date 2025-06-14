@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { ArrowRight, StarIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
@@ -18,8 +18,8 @@ export const ProductCard = ({
 	id,
 	name,
 	imageUrl,
-	tenantSlug,
-	tenantImageUrl,
+	// tenantSlug,
+	// tenantImageUrl,
 	reviewRating,
 	reviewCount,
 	price,

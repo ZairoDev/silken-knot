@@ -2,15 +2,15 @@
 
 // TODO: Add real ratings
 import axios from "axios";
-import Image from "next/image";
+// import Image from "next/image";
 import { toast } from "sonner";
-import { LinkIcon, ShoppingCart, Star, StarIcon } from "lucide-react";
-import { Fragment, useEffect, useState } from "react";
+import {  ShoppingCart, StarIcon } from "lucide-react";
+import {  useEffect, useState } from "react";
 
 import { ProductType } from "@/utils/types";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
+// import { Progress } from "@/components/ui/progress";
 import { StarRating } from "@/components/star-rating";
 import {
 	Accordion,

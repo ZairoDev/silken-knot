@@ -1,9 +1,9 @@
-import { Suspense } from "react";
+// import { Suspense } from "react";
 
-import {
-  SearchFilters,
-  SearchFiltersLoadingSkeleton,
-} from "@/modules/home/ui/components/search-filters";
+// import {
+//   SearchFilters,
+//   SearchFiltersLoadingSkeleton,
+// } from "@/modules/home/ui/components/search-filters";
 import { Footer } from "@/modules/home/ui/components/footer";
 import { Navbar } from "@/modules/home/ui/components/navbar";
 

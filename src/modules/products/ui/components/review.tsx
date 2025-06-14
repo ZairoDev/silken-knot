@@ -1,7 +1,7 @@
 'use client'
 import axios from "axios";
 import { Star } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const Review = () => {
 

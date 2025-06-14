@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import Autoplay from "embla-carousel-autoplay";
-import Image from "next/image";
+// import Image from "next/image";
 import React from "react";
 
 export const HeroSection = () => {
